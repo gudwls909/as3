@@ -186,7 +186,7 @@ def word_embedding_forward(x, W):
 
     Inputs:
     - x: Integer array of shape (N, T) giving indices of words. Each element idx
-      of x muxt be in the range 0 <= idx < V.
+      of x must be in the range 0 <= idx < V.
     - W: Weight matrix of shape (V, D) giving word vectors for all words.
 
     Returns a tuple of:
@@ -199,6 +199,9 @@ def word_embedding_forward(x, W):
     #                                                                            #
     # HINT: This can be done in one line using NumPy's array indexing.           #
     ##############################################################################
+    out = W[x]
+    
+    cache = (x, W.shape[0])
     pass
     ##############################################################################
     #                               END OF YOUR CODE                             #
@@ -228,6 +231,15 @@ def word_embedding_backward(dout, cache):
     # Note that words can appear more than once in a sequence.                   #
     # HINT: Look up the function np.add.at                                       #
     ##############################################################################
+    x, V = cache
+    N, T, D = dout.shape
+    
+    dW = np.zeros((V,D))
+    
+    for n in range(N):
+        idxes = x[n,:]
+        gradients = dout[n,:,:]
+        np.add.at(dW, idxes, gradients)
     pass
     ##############################################################################
     #                               END OF YOUR CODE                             #
