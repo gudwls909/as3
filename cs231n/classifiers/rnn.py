@@ -257,7 +257,7 @@ class CaptioningRNN(object):
             if self.cell_type == 'rnn':
                 cur_h, _ = rnn_step_forward(x, cur_h, Wx, Wh, b)
             else:
-                cur_h, cur_c, _ = lstm_step_forward(x, cur_h, Wx, Wh, b)
+                cur_h, cur_c, _ = lstm_step_forward(x, cur_h, cur_c, Wx, Wh, b)
             
             temp_h = cur_h.reshape(cur_h.shape[0], 1, cur_h.shape[1]) # NxH -> Nx1xH
             scores, _ = temporal_affine_forward(temp_h, W_vocab, b_vocab)            
